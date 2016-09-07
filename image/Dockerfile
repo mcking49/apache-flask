@@ -18,12 +18,13 @@ ADD image_scripts/ /srv/scripts
 # Clone the app from github and install packages
 RUN git clone https://github.com/operationzombie/apache-flask.git /srv/www/app
 RUN cp -f /srv/www/app/apache/config/default.conf /etc/apache2/sites-available/000-default.conf
-RUN pip install -r /srv/www/app/requirements.txt 
+RUN pip install -r /srv/www/app/requirements.txt
 
 ##################### INSTALLATION END #####################
 
 # Expose the default port
 EXPOSE 80
+EXPOSE 8082
 
 # Set default container command
 ENTRYPOINT /usr/sbin/apache2ctl -D FOREGROUND
