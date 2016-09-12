@@ -25,16 +25,16 @@ var sensorColor = {
 
         // create an array with nodes and sensors
         nodesBaseArray = [
-            {id: '1', label: 'Elsa', group: 'nodes'},
-            {id: '2', label: 'Belle', group: 'sensors'},
-            {id: '3', label: 'Aurora', group: 'sensors'}
+            {id: '1', label: 'Elsa', group: 'nodes', status: 'deactive'},
+            {id: '2', label: 'Belle', group: 'sensors', status: 'deactive'},
+            {id: '3', label: 'Aurora', group: 'sensors', status: 'deactive'}
         ];
         nodes = new vis.DataSet(nodesBaseArray);
 
         // create an array with edges
         edgesArray = [
-            {id: '1', from: '1', to: '2' },
-            {id: '2', from: '2', to: '3' }
+            {id: '1', from: '1', to: '2', status: 'deactive' },
+            {id: '2', from: '2', to: '3', status: 'deactive' }
         ];
         edges = new vis.DataSet(edgesArray);
 
@@ -90,18 +90,46 @@ var sensorColor = {
         addNode(data.id, data.group, data.label, 200, -200);
     }
 
+    function toggleCurrentNode(){
+         var selectedNodeIds = network.getSelectedNodes();
+        if(selectedNodeIds==0){return;}
+        //Only one node can be selected so will be frist in list
+        node = nodes.get(selectedNodeIds[0]);
+        console.log('Toggle Node : ' + node.id + " : " + node.label);
+        if(node.status == 'activated'){
+
+            deactivateNode(node.id);
+        }else{
+            activateNode(node.id);
+        }
+    }
+
     function activateCurrentNode(){
         var selectedNodeIds = network.getSelectedNodes();
         if(selectedNodeIds==0){return;}
-        setNodeColor(selectedNodeIds[0], activatedColor);
-        $.post('/', {command: 'Activate Node', node: selectedNodeIds[0]});
+        //Only one node can be selected so will be frist in list
+        activateNode(selectedNodeIds[0]);
+    }
+
+    function activateNode(nodeId){
+        if(nodes.get(nodeId)==null)
+            return;
+        //Only one node can be selected so will be frist in list
+        setNodeColor(nodeId, activatedColor);
+        nodes.update({
+            id: nodeId,
+            status: 'activated'
+        });
+        $.post('/', {command: 'Activate Node', node: nodeId});
     }
 
     function deactivateNode(nodeId){
+        setNodeColor(nodeId, null);
         nodes.update({
             id: nodeId,
-            color: null //null color means that the node will use group default
+            status: 'deactive'
         });
+        $.post('/', {command: 'Deactivate Node', node: nodeId});
     }
 
     //Set specific node color
