@@ -33,6 +33,60 @@ adr = None
 @app.route('/', methods=['POST', 'GET'])
 def index():    
 	if request.method == 'POST':
+		if request.form['submit'] == 'ARIEL0':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'ARIEL'
+			opcode = '0'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
+		if request.form['submit'] == 'ARIEL1':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'ARIEL'
+			opcode = '1'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
+		if request.form['submit'] == 'ARIEL2':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'ARIEL'
+			opcode = '2'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
+		if request.form['submit'] == 'BELLE0':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'BELLE'
+			opcode = '0'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
+		if request.form['submit'] == 'BELLE1':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'BELLE'
+			opcode = '1'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
+		if request.form['submit'] == 'BELLE2':
+			print('\n')
+			print 'Start'
+			print('\n')
+			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			node = 'BELLE'
+			opcode = '2'
+			port.write("~"+node+"*"+opcode)
+			return render_template('index.html')
 		if request.form['submit'] == 'Setup':
 			print('\n')
 			print '***************** SETUP ******************'
