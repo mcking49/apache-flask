@@ -92,6 +92,13 @@ def index():
 		return render_template('index.html')
 
 #-----------------------------------
+@app.route('/standardMode', methods=['POST', 'GET'])
+def standardMode():
+	if request.method == 'POST':
+		return render_template('standardMode.html')
+	return render_template('standardMode.html')
+
+#-----------------------------------
 @app.errorhandler(500)
 def internal_error(error):
 
