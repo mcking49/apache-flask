@@ -57,6 +57,9 @@ def index():
 		if request.form['command'] == 'Activate Node':
 			sendMsg('Activate Node: ' + request.form['node'])
 			return render_template('index.html')
+		elif request.form['command'] == 'Deactivate Node':
+			sendMsg('Deactivate Node: ' + request.form['node'])
+			return render_template('index.html')
 		elif request.form['submit'] == 'Ping-Pong':
 			print('\n')
 			print '***************** Ping-Pong ******************'
