@@ -15,28 +15,6 @@
 
     <script src="../static/vis/dist/vis.js"></script>
     <link href="../static/vis/dist/vis.css" rel="stylesheet" type="text/css"/>
-
-    <style type="text/css">
-        body {
-            color: #d3d3d3;
-            font: 12pt arial;
-            background-color: #ffffff;
-        }
-        #mynetwork {
-            width: auto;
-            height: 600px;
-            border: 1px solid lightgray;
-            background-image: url("/static/images/floorplan.gif");  
-            background-size: contain;  
-            background-repeat: no-repeat;        
-        }
-        img{
-            height: 400px;
-        }
-    </style>
-
-
-
 </head>
 <body>
     <div id="wrapper">
@@ -72,7 +50,6 @@
             </div><!-- /.navbar-static-side -->         
         </nav>
 
-
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -81,7 +58,7 @@
             </div><!-- /.row -->
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="panel panel-default">                                                                       <!--MAP PLACEHOLDER-->
+                    <div class="panel panel-default panel-map">                                                                       <!--MAP PLACEHOLDER-->
                         <div class="panel-heading">
                             <i class="glyphicon glyphicon-map-marker"></i> Floor Plan                           
                         </div><!-- /.panel-heading -->
@@ -125,11 +102,13 @@
                                     <i class="glyphicon glyphicon-scale"></i> Targets
                                 </div>    
                                 <div class="list-group">
-                                    <a onClick="nodeSelect({id: '1', group: 'nodes', label: 'Elsa'});" class="list-group-item">
-                                        <i class="glyphicon glyphicon-screenshot"></i> Elsa
-                                    </a>
-                                    <a onClick="nodeSelect({id: '4', group: 'nodes', label: 'Ruby'});" class="list-group-item">
-                                        <i class="glyphicon glyphicon-screenshot"></i> Ruby
+                                    {% for node in nodes %}
+                                        <a onClick="nodeSelect({id: '{{ node.id }}', group: 'nodes', label: '{{ node.label }}'});" class="list-group-item">
+                                            <i class="glyphicon glyphicon-screenshot"></i> {{ node.label }}
+                                        </a>
+                                    {% endfor %}
+                                    <a onClick="nodeSelect({id: '10', group: 'nodes', label: 'TEST'});" class="list-group-item">
+                                        <i class="glyphicon glyphicon-screenshot"></i> TEST
                                     </a>
                                 </div>
                             </div>
@@ -138,20 +117,24 @@
                                     <i class="glyphicon glyphicon-sort"></i> Sensors
                                 </div>    
                                 <div class="list-group">
-                                    <a onClick="nodeSelect({id: '2', group: 'sensors', label: 'Belle'});" class="list-group-item">
-                                        <i class="glyphicon glyphicon-screenshot"></i> Belle
-                                    </a>
-                                    <a onClick="nodeSelect({id: '3', group: 'sensors', label: 'Aurora'});" class="list-group-item">
+                                    {% for sensor in sensors %}
+                                        <a onClick="nodeSelect({id: '{{ sensor.id }}', group: 'sensors', label: '{{ sensor.label }}'});" class="list-group-item">
+                                            <i class="glyphicon glyphicon-screenshot"></i> {{ sensor.label }}
+                                        </a>
+                                    {% endfor %}
+
+                                    <!--<a onClick="nodeSelect({id: '3', group: 'sensors', label: 'Aurora'});" class="list-group-item">
                                         <i class="glyphicon glyphicon-screenshot"></i> Aurora
-                                    </a>
+                                    </a>-->
                                 </div>
                             </div> 
+
+
                         </div><!-- /.panel-body -->                        
                     </div>
                 </div><!-- /.col-lg-4 -->                
             </div><!-- /.row -->            
         </div><!-- /#page-wrapper -->        
-    </div><!-- /#wrapper -->    
-
+    </div><!-- /#wrapper -->  
 </body>
 </html>

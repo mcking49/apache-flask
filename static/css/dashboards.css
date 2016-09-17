@@ -1,5 +1,7 @@
 body {
-    background-color: #f8f8f8;
+    color: #d3d3d3;
+    font: 12pt arial;
+    background-color: #ffffff;
 }
 
 #wrapper {
@@ -104,4 +106,13 @@ body {
 form {
     display: inline;
     margin: auto;
+}
+
+#mynetwork {
+    width: auto;
+    height: 400px;
+    border: 1px solid lightgray;
+    background-image: url("/static/images/floorplan.gif");  
+    background-size: contain;  
+    background-repeat: no-repeat;        
 }

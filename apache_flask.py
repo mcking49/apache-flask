@@ -15,6 +15,20 @@ app = Flask(__name__)
 from db import db
 from db import Node, Sensor, Edge
 
+nodes = Node.query.order_by(Node.label).all()
+nodeList = []
+for n in nodes:
+	nodeList.append(n.label)	
+# print nodeList[0]
+print nodes
+
+sensors = Sensor.query.order_by(Sensor.label).all()
+sensorList = []
+for s in sensors:
+	sensorList.append(s.label)
+# print sensorList[0]
+print sensors
+
 from commontools import log
 import serial, time
 
@@ -32,6 +46,11 @@ adr = None
 #-----------------------------------
 @app.route('/', methods=['POST', 'GET'])
 def index():    
+	return render_template('index.html')
+	
+#-----------------------------------
+@app.route('/standardMode', methods=['POST', 'GET'])
+def standardMode():
 	if request.method == 'POST':
 		if request.form['submit'] == 'Setup':
 			print('\n')
@@ -44,7 +63,7 @@ def index():
 			while not conn:
 				conn, adr = s.accept()
 			#sender.sendall('PING')
-			return render_template('index.html')
+			return render_template('standardMode.html')
 		if request.form['submit'] == 'Ping':
 			print('\n')
 			print '***************** PINGING ******************'
@@ -57,7 +76,7 @@ def index():
 			conn.recv(1024)
 			#sender.sendall('PING')
 			conn.close()
-			return render_template('index.html')
+			return render_template('standardMode.html')
 		elif request.form['submit'] == 'Pong':
 			print('\n')
 			print '***************** WAITING FOR DATA ******************'
@@ -87,16 +106,10 @@ def index():
 					conn.close()
 					return data
 			print 'PING PONG'
-			return render_template('index.html')
+			return render_template('standardMode.html')
 	elif request.method == 'GET':
-		return render_template('index.html')
+		return render_template('standardMode.html', nodes=nodes, sensors=sensors)
 
-#-----------------------------------
-@app.route('/standardMode', methods=['POST', 'GET'])
-def standardMode():
-	if request.method == 'POST':
-		return render_template('standardMode.html')
-	return render_template('standardMode.html')
 
 #-----------------------------------
 @app.errorhandler(500)
