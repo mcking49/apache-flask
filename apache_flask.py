@@ -52,45 +52,6 @@ def index():
 @app.route('/standardMode', methods=['POST', 'GET'])
 def standardMode():
 	if request.method == 'POST':
-		if request.form['submit'] == 'Setup':
-			print('\n')
-			print '***************** SETUP ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			while not conn:
-				conn, adr = s.accept()
-			#sender.sendall('PING')
-			return render_template('standardMode.html', nodes=nodes, 
-									sensors=sensors)
-		if request.form['submit'] == 'Ping':
-			print('\n')
-			print '***************** PINGING ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			conn.sendall('PING')
-			conn.recv(1024)
-			#sender.sendall('PING')
-			conn.close()
-			return render_template('standardMode.html', nodes=nodes, 
-									sensors=sensors)
-		elif request.form['submit'] == 'Pong':
-			print('\n')
-			print '***************** WAITING FOR DATA ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			while True :
-				data = conn.recv(1024)
-				if data:
-					return data
 		if request.form['command'] == 'Activate Node':
 			sendMsg('Activate Node: ' + request.form['node'])
 			return render_template('index.html')
