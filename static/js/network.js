@@ -1,5 +1,22 @@
 var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
 
+var activatedColor = {
+                        background: '#66ff66',
+                        border: '#00b300',
+                        highlight: {
+                                background: '#b3ffb3',
+                                border: '#00ff00'
+                            }
+                        };
+var sensorColor = {
+                        background: '#ff9900',
+                        border: '#b36b00',
+                        highlight: {
+                            background: '#ffc266',
+                            border: '#b36b00'
+                        }
+                    }
+
     function startNetwork() {
         // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
         shadowState = false;
@@ -11,8 +28,8 @@ var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
 
         // create an array with edges
         edgesArray = [
-            {id: '1', from: '1', to: '2' },
-            {id: '2', from: '2', to: '3' }
+            {id: '1', from: '1', to: '2', status: 'deactive' },
+            {id: '2', from: '2', to: '3', status: 'deactive' }
         ];
         edges = new vis.DataSet(edgesArray);
 
@@ -38,14 +55,7 @@ var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
                 },
                 sensors: {
                     shape: 'box',
-                    color:{
-                        background: '#ff9900',
-                        border: '#b36b00',
-                        highlight: {
-                            background: '#ffc266',
-                            border: '#b36b00'
-                        }
-                    }
+                    color: sensorColor
                 }
             }
         };
@@ -73,6 +83,58 @@ var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
         //Create Node
         //TODO add node on next click instead of at fixed locale
         addNode(data.id, data.group, data.label, 200, -200);
+    }
+
+    function toggleCurrentNode(){
+         var selectedNodeIds = network.getSelectedNodes();
+        if(selectedNodeIds==0){return;}
+        //Only one node can be selected so will be frist in list
+        node = nodes.get(selectedNodeIds[0]);
+        console.log('Toggle Node : ' + node.id + " : " + node.label);
+        if(node.status == 'activated'){
+
+            deactivateNode(node.id);
+        }else{
+            activateNode(node.id);
+        }
+    }
+
+    function activateCurrentNode(){
+        var selectedNodeIds = network.getSelectedNodes();
+        if(selectedNodeIds==0){return;}
+        //Only one node can be selected so will be frist in list
+        activateNode(selectedNodeIds[0]);
+    }
+
+    function activateNode(nodeId){
+        if(nodes.get(nodeId)==null)
+            return;
+        //Only one node can be selected so will be frist in list
+        setNodeColor(nodeId, activatedColor);
+        nodes.update({
+            id: nodeId,
+            status: 'activated'
+        });
+        $.post('/', {command: 'Activate Node', node: nodeId});
+    }
+
+    function deactivateNode(nodeId){
+        setNodeColor(nodeId, null);
+        nodes.update({
+            id: nodeId,
+            status: 'deactive'
+        });
+        $.post('/', {command: 'Deactivate Node', node: nodeId});
+    }
+
+    //Set specific node color
+    //nodeId: ID as stored in nodes DataSet
+    //Color should contain { background, border, highlight{ background, color } as hex strings
+    function setNodeColor(nodeId, color){
+        nodes.update({
+            id: nodeId,
+            color: color
+        });
     }
 
     //Add a node at this location
