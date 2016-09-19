@@ -92,7 +92,6 @@ var sensorColor = {
         node = nodes.get(selectedNodeIds[0]);
         console.log('Toggle Node : ' + node.id + " : " + node.label);
         if(node.status == 'activated'){
-
             deactivateNode(node.id);
         }else{
             activateNode(node.id);
