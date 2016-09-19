@@ -7,12 +7,7 @@ var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
 
 
         // create an array with nodes and sensors
-        nodesBaseArray = [
-            {id: '1', label: 'Elsa', group: 'nodes'},
-            {id: '2', label: 'Belle', group: 'sensors'},
-            {id: '3', label: 'Aurora', group: 'sensors'}
-        ];
-        nodes = new vis.DataSet(nodesBaseArray);
+        nodes = new vis.DataSet();
 
         // create an array with edges
         edgesArray = [
