@@ -7,7 +7,7 @@
 
 from flask import Flask, make_response, render_template, jsonify, request
 
-import serial, socket
+import serial, socket, port_listener
 
 app = Flask(__name__)
 
@@ -16,38 +16,28 @@ from db import db
 from db import Node, Sensor, Edge
 
 from commontools import log
-import serial, time
+import serial, time, port_listener
 
-#Setup listen socket
+#Setup sockets
 HOST = ''                 # Symbolic name meaning all available interfaces
-PORT = 8082              # Arbitrary non-privileged port
+SEND_PORT = 8082              # Arbitrary non-privileged 
+RECV_PORT = 8083
 conn = None
 adr = None
-#Setup sending socket
-#HOST = '0.0.0.0'    # The remote host
-#PORT = 8083           # The same port as used by the server
-#sender = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#sender.connect((HOST, PORT))
+
+port_handler = port_listener.port_handler(HOST, SEND_PORT, RECV_PORT)
+port_handler.startListener()
 
 def sendMsg(msg):
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((HOST, PORT))
-	s.listen(1)
-	conn, adr = s.accept()
-	conn.sendall(msg)
-	conn.close()
+	port_handler.add_command(msg)
 
-def awaitMsg():
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((HOST, PORT))
-	s.listen(1)
-	conn, adr = s.accept()
-	data = None
-	while data != 'PONG':
-		data = conn.recv(1024)
-		if data == 'PONG':
-			conn.close()
-			return data
+def pollMsg():
+	cmd = port_handler.get_command()
+	if cmd:
+		print cmd
+	else:
+		print 'No Command'
+	return cmd
 	
 
 #-----------------------------------
@@ -66,7 +56,7 @@ def index():
 			print('\n')
 			print 'WRITE PING'
 			sendMsg('PING')
-			msg = awaitMsg()
+			msg = pollMsg()
 			print 'PING PONG'
 			return render_template('index.html')
 	elif request.method == 'GET':

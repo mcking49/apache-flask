@@ -1,0 +1,75 @@
+import serial, socket, threading, Queue, time
+
+class port_handler:
+
+	#Intitialise handler
+	def __init__(self, host, send_port, recv_port):
+		self.host = host
+		self.send_port = send_port
+		self.recv_port = recv_port
+		self.send_conn = None
+		self.recv_conn = None
+		self.send_adr = None
+		self.recv_adr = None
+		self.command_queue = Queue.Queue()
+		self.r_command_queue = Queue.Queue()
+		self.connected = False
+
+		self.send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.recv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
+	#Add command to queue to be sent by sender
+	def add_command(self, cmd):
+		self.command_queue.put(cmd)
+
+	#Gets recieved commands
+	def get_command(self):
+		if not self.r_command_queue.empty():
+			return self.r_command_queue.get()
+		else:
+			return None
+
+	#Listener that connects to recv port and adds received commands to queue
+	def listen(self, recv_conn):
+		#Connect to socket
+		while recv_conn == None:
+			self.recv_socket.bind((self.host, self.recv_port))
+			self.recv_socket.listen(1)
+			recv_conn, recv_adr = self.recv_socket.accept()
+		print 'recv connected'
+		#Listen to socket
+		recieved = None
+		while(True):
+			print 'loop listener'
+			if not self.r_command_queue.empty():
+				print self.r_command_queue.get()
+			recieved = recv_conn.recv(1024)
+			if recieved:
+				self.r_command_queue.put(recieved)
+			recieved = None
+
+	#Connects to and sends commands to the send port
+	def send(self, send_conn):
+		#Connect to port
+		while send_conn == None:
+			self.send_socket.bind((self.host, self.send_port))
+			self.send_socket.listen(1)
+			send_conn, send_adr = self.send_socket.accept()
+		print 'send connected'
+		#Send comands from queue
+		while True:
+			print 'loop sender'
+			cmd = self.command_queue.get(True)
+			send_conn.sendall(cmd)
+
+	#Starts the command sender and reciever threads
+	def startListener(self):
+		self.send_conn = None
+		self.recv_conn = None
+		listener = threading.Thread(target=self.listen, args = (self.recv_conn,))
+		sender = threading.Thread(target=self.send, args = (self.send_conn,))
+		listener.daemon = True # setting daemon to true means threads wont stop program from closing
+		sender.daemon = True
+		listener.start()
+		sender.start()
