@@ -28,7 +28,7 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
-port_handler = port_listener.port_handler(HOST, SEND_PORT, RECV_PORT)
+port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
 port_handler.startListener()
 
 def sendMsg(msg):
@@ -63,7 +63,8 @@ def standardMode():
 			while not conn:
 				conn, adr = s.accept()
 			#sender.sendall('PING')
-			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
+			return render_template('standardMode.html', nodes=nodes, 
+									sensors=sensors)
 		if request.form['submit'] == 'Ping':
 			print('\n')
 			print '***************** PINGING ******************'
@@ -76,7 +77,8 @@ def standardMode():
 			conn.recv(1024)
 			#sender.sendall('PING')
 			conn.close()
-			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
+			return render_template('standardMode.html', nodes=nodes, 
+									sensors=sensors)
 		elif request.form['submit'] == 'Pong':
 			print('\n')
 			print '***************** WAITING FOR DATA ******************'
@@ -103,9 +105,11 @@ def standardMode():
 			sendMsg('PING')
 			msg = pollMsg()
 			print 'PING PONG'
-			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
 	elif request.method == 'GET':
-		return render_template('standardMode.html', nodes=nodes, sensors=sensors)
+		return render_template('standardMode.html', nodes=nodes, 
+								sensors=sensors)
 
 
 #-----------------------------------
