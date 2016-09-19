@@ -18,22 +18,22 @@ from db import db
 db.create_all()
 
 
-from db import Node, Sensor, Edge
+from db import Device, Edge
 # Adding Nodes to the database.
-elsa = Node('Elsa')
+elsa = Device('Elsa', 'Node')
 db.session.add(elsa)
 
-aurora = Node('Aurora')
+aurora = Device('Aurora', 'Node')
 db.session.add(aurora)
 
-belle = Node('Belle')
+belle = Device('Belle', 'Node')
 db.session.add(belle)
 
 # Adding some test sensors to the database
-alpha = Sensor('Alpha')
+alpha = Device('Alpha', 'Sensor')
 db.session.add(alpha)
 
-beta = Sensor('Beta')
+beta = Device('Beta', 'Sensor')
 db.session.add(beta)
 
 # Commit new information to the database

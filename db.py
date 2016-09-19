@@ -18,45 +18,26 @@ app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
 # Node Table
-class Node(db.Model):
+class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(80), unique=True)
-    # status = db.Column(db.String(80))
-    # location_x = db.Column(db.Integer)
-    # location_y = db.Column(db.Integer)
+    d_type = db.Column(db.String(80))
 
-    def __init__(self, label):
+    def __init__(self, label, d_type):
         self.label = label
-        # self.status = status
-        # self.location = [location_x, location_y]
+        self.d_type = d_type
 
     def __repr__(self):
-        return '<Node %r>' % self.label
-
-# Sensor Table
-class Sensor(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    label = db.Column(db.String(80), unique=True)
-    # status = db.Column(db.String(80))
-    # location_x = db.Column(db.Integer)
-    # location_y = db.Column(db.Integer)
-
-    def __init__(self, label):
-        self.label = label
-        # self.status = status
-        # self.location = [location_x, location_y]
-
-    def __repr__(self):
-        return '<Sensor %r>' % self.label
+        return '<Device %r>' % self.label
 
 # Edge Table
 class Edge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Node_id = db.Column(db.Integer, db.ForeignKey('node.id'))
-    node = db.relationship('Node', backref=db.backref('posts', lazy='dynamic'))
+    Device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    device = db.relationship('Device', backref=db.backref('posts', lazy='dynamic'))
 
-    def __init__(self, username):
-        self.node = node
+    def __init__(self, device):
+        self.device = device
 
     def __repr__(self):
-        return '<Node %r>' % self.node
+        return '<Device %r>' % self.device

@@ -13,7 +13,10 @@ app = Flask(__name__)
 
 # import the database and the tables from the database
 from db import db
-from db import Node, Sensor, Edge
+from db import Device, Edge
+
+nodes = Device.query.filter_by(d_type='Node').order_by(Device.label).all()
+sensors = Device.query.filter_by(d_type='Sensor').order_by(Device.label).all()
 
 from commontools import log
 import serial, time
@@ -32,6 +35,11 @@ adr = None
 #-----------------------------------
 @app.route('/', methods=['POST', 'GET'])
 def index():    
+	return render_template('index.html')
+	
+#-----------------------------------
+@app.route('/standardMode', methods=['POST', 'GET'])
+def standardMode():
 	if request.method == 'POST':
 		if request.form['submit'] == 'Setup':
 			print('\n')
@@ -44,7 +52,7 @@ def index():
 			while not conn:
 				conn, adr = s.accept()
 			#sender.sendall('PING')
-			return render_template('index.html')
+			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
 		if request.form['submit'] == 'Ping':
 			print('\n')
 			print '***************** PINGING ******************'
@@ -57,7 +65,7 @@ def index():
 			conn.recv(1024)
 			#sender.sendall('PING')
 			conn.close()
-			return render_template('index.html')
+			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
 		elif request.form['submit'] == 'Pong':
 			print('\n')
 			print '***************** WAITING FOR DATA ******************'
@@ -87,9 +95,10 @@ def index():
 					conn.close()
 					return data
 			print 'PING PONG'
-			return render_template('index.html')
+			return render_template('standardMode.html', nodes=nodes, sensors=sensors)
 	elif request.method == 'GET':
-		return render_template('index.html')
+		return render_template('standardMode.html', nodes=nodes, sensors=sensors)
+
 
 #-----------------------------------
 @app.errorhandler(500)
