@@ -24,12 +24,7 @@ var sensorColor = {
 
 
         // create an array with nodes and sensors
-        nodesBaseArray = [
-            {id: '1', label: 'Elsa', group: 'nodes', status: 'deactive'},
-            {id: '2', label: 'Belle', group: 'sensors', status: 'deactive'},
-            {id: '3', label: 'Aurora', group: 'sensors', status: 'deactive'}
-        ];
-        nodes = new vis.DataSet(nodesBaseArray);
+        nodes = new vis.DataSet();
 
         // create an array with edges
         edgesArray = [

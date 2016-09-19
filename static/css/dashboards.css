@@ -1,6 +1,7 @@
 body {
+    color: #d3d3d3;
     font: 12pt arial;
-    background-color: #f8f8f8;    
+    background-color: #ffffff;
 }
 
 #wrapper {
@@ -83,18 +84,35 @@ body {
         margin-left: auto;
     }
 }
+#setup {
+    background-color: dodgerblue;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 4px;
+}
+
+#pingpong {
+    background-color: darkgoldenrod;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+}
+
 
 form {
     display: inline;
-    padding: 20px;
-                                
+    margin: auto;
 }
 
-.btn {
-    min-height: 200px;
-    min-width: 200px;
-}
-
-.panel-body {
-    text-align: center;
+#mynetwork {
+    width: auto;
+    height: 400px;
+    border: 1px solid lightgray;
+    background-image: url("/static/images/floorplan.gif");  
+    background-size: contain;  
+    background-repeat: no-repeat;        
 }

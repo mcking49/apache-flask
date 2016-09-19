@@ -13,7 +13,10 @@ app = Flask(__name__)
 
 # import the database and the tables from the database
 from db import db
-from db import Node, Sensor, Edge
+from db import Device, Edge
+
+nodes = Device.query.filter_by(d_type='Node').order_by(Device.label).all()
+sensors = Device.query.filter_by(d_type='Sensor').order_by(Device.label).all()
 
 from commontools import log
 import serial, time, port_listener
@@ -25,7 +28,7 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
-port_handler = port_listener.port_handler(HOST, SEND_PORT, RECV_PORT)
+port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
 port_handler.startListener()
 
 def sendMsg(msg):
@@ -43,6 +46,11 @@ def pollMsg():
 #-----------------------------------
 @app.route('/', methods=['POST', 'GET'])
 def index():    
+	return render_template('index.html')
+	
+#-----------------------------------
+@app.route('/standardMode', methods=['POST', 'GET'])
+def standardMode():
 	if request.method == 'POST':
 		if request.form['command'] == 'Activate Node':
 			sendMsg('Activate Node: ' + request.form['node'])
@@ -58,9 +66,12 @@ def index():
 			sendMsg('PING')
 			msg = pollMsg()
 			print 'PING PONG'
-			return render_template('index.html')
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
 	elif request.method == 'GET':
-		return render_template('index.html')
+		return render_template('standardMode.html', nodes=nodes, 
+								sensors=sensors)
+
 
 #-----------------------------------
 @app.errorhandler(500)
