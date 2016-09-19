@@ -18,7 +18,7 @@ from db import Node, Sensor, Edge
 from commontools import log
 import serial, time, port_listener
 
-#Setup listen socket
+#Setup sockets
 HOST = ''                 # Symbolic name meaning all available interfaces
 SEND_PORT = 8082              # Arbitrary non-privileged 
 RECV_PORT = 8083
@@ -27,20 +27,9 @@ adr = None
 
 port_handler = port_listener.port_handler(HOST, SEND_PORT, RECV_PORT)
 port_handler.startListener()
-#Setup sending socket
-#HOST = '0.0.0.0'    # The remote host
-#PORT = 8083           # The same port as used by the server
-#sender = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#sender.connect((HOST, PORT))
 
 def sendMsg(msg):
 	port_handler.add_command(msg)
-	# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	# s.bind((HOST, PORT))
-	# s.listen(1)
-	# conn, adr = s.accept()
-	# conn.sendall(msg)
-	# conn.close()
 
 def pollMsg():
 	cmd = port_handler.get_command()
@@ -49,16 +38,6 @@ def pollMsg():
 	else:
 		print 'No Command'
 	return cmd
-	# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	# s.bind((HOST, PORT))
-	# s.listen(1)
-	# conn, adr = s.accept()
-	# data = None
-	# while data != 'PONG':
-	# 	data = conn.recv(1024)
-	# 	if data == 'PONG':
-	# 		conn.close()
-	# 		return data
 	
 
 #-----------------------------------
