@@ -19,9 +19,12 @@ db = SQLAlchemy(app)
 
 # Node Table
 class Device(db.Model):
+    __tablename__ = 'device'
+
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(80), unique=True)
     d_type = db.Column(db.String(80))
+    activated = db.relationship("ActivatedDevices")
 
     def __init__(self, label, d_type):
         self.label = label
@@ -32,8 +35,10 @@ class Device(db.Model):
 
 # Edge Table
 class Edge(db.Model):
+    __tablename__ = 'edge'
+
     id = db.Column(db.Integer, primary_key=True)
-    Device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
     device = db.relationship('Device', backref=db.backref('posts', lazy='dynamic'))
 
     def __init__(self, device):
@@ -41,3 +46,12 @@ class Edge(db.Model):
 
     def __repr__(self):
         return '<Device %r>' % self.device
+
+class ActivatedDevices(db.Model):
+    __tablename__ = 'activateddevices'
+
+    id = db.Column(db.Integer, primary_key=True)
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+
+    def __repr__(self):
+        return '<Device %r>' % (self.device_id)
