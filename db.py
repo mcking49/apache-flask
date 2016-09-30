@@ -51,7 +51,10 @@ class ActivatedDevices(db.Model):
     __tablename__ = 'activateddevices'
 
     id = db.Column(db.Integer, primary_key=True)
-    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'), unique=True)
+
+    def __init__(self, device_id):
+        self.device_id = device_id
 
     def __repr__(self):
         return '<Device %r>' % (self.device_id)
