@@ -34,13 +34,12 @@ adr = None
 def index():    
 	if request.method == 'POST':
 		if request.form['submit'] == 'ARIEL0':
-			print('\n')
-			print 'Start'
-			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			port = serial.Serial('COM5', baudrate=9600, timeout=0)
 			node = 'ARIEL'
 			opcode = '0'
 			port.write("~"+node+"*"+opcode)
+			sread = port.readline()
+			print sread
 			return render_template('index.html')
 		if request.form['submit'] == 'ARIEL1':
 			print('\n')
