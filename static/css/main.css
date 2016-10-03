@@ -104,3 +104,8 @@ form{
     display: inline;
     margin: auto;
 }
+
+.go{
+    background-color: green;
+    color: white;
+}

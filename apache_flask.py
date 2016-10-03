@@ -40,107 +40,107 @@ def index():
 			port.write("~"+node+"*"+opcode)
 			sread = port.readline()
 			print sread
-			return render_template('index.html')
-		if request.form['submit'] == 'ARIEL1':
+		# 	return render_template('index.html')
+		# if request.form['submit'] == 'ARIEL1':
+		# 	print('\n')
+		# 	print 'Start'
+		# 	print('\n')
+		# 	port = serial.Serial('COM3', baudrate=9600, timeout=0)
+		# 	node = 'ARIEL'
+		# 	opcode = '1'
+		# 	port.write("~"+node+"*"+opcode)
+		# 	return render_template('index.html')
+		# if request.form['submit'] == 'ARIEL2':
+		# 	print('\n')
+		# 	print 'Start'
+		# 	print('\n')
+		# 	port = serial.Serial('COM3', baudrate=9600, timeout=0)
+		# 	node = 'ARIEL'
+		# 	opcode = '2'
+		# 	port.write("~"+node+"*"+opcode)
+		# 	return render_template('index.html')
+		# if request.form['submit'] == 'BELLE0':
+		# 	print('\n')
+		# 	print 'Start'
+		# 	print('\n')
+		# 	port = serial.Serial('COM3', baudrate=9600, timeout=0)
+		# 	node = 'BELLE'
+		# 	opcode = '0'
+		# 	port.write("~"+node+"*"+opcode)
+		# 	return render_template('index.html')
+		# if request.form['submit'] == 'BELLE1':
+		# 	print('\n')
+		# 	print 'Start'
+		# 	print('\n')
+		# 	port = serial.Serial('COM3', baudrate=9600, timeout=0)
+		# 	node = 'BELLE'
+		# 	opcode = '1'
+		# 	port.write("~"+node+"*"+opcode)
+		# 	return render_template('index.html')
+		if request.form['submit'] == 'Go':
 			print('\n')
 			print 'Start'
 			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
-			node = 'ARIEL'
-			opcode = '1'
-			port.write("~"+node+"*"+opcode)
+			# port = serial.Serial('COM3', baudrate=9600, timeout=0)
+			# node = 'BELLE'
+			# opcode = '2'
+			# port.write("~"+node+"*"+opcode)
 			return render_template('index.html')
-		if request.form['submit'] == 'ARIEL2':
-			print('\n')
-			print 'Start'
-			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
-			node = 'ARIEL'
-			opcode = '2'
-			port.write("~"+node+"*"+opcode)
-			return render_template('index.html')
-		if request.form['submit'] == 'BELLE0':
-			print('\n')
-			print 'Start'
-			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
-			node = 'BELLE'
-			opcode = '0'
-			port.write("~"+node+"*"+opcode)
-			return render_template('index.html')
-		if request.form['submit'] == 'BELLE1':
-			print('\n')
-			print 'Start'
-			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
-			node = 'BELLE'
-			opcode = '1'
-			port.write("~"+node+"*"+opcode)
-			return render_template('index.html')
-		if request.form['submit'] == 'BELLE2':
-			print('\n')
-			print 'Start'
-			print('\n')
-			port = serial.Serial('COM3', baudrate=9600, timeout=0)
-			node = 'BELLE'
-			opcode = '2'
-			port.write("~"+node+"*"+opcode)
-			return render_template('index.html')
-		if request.form['submit'] == 'Setup':
-			print('\n')
-			print '***************** SETUP ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			while not conn:
-				conn, adr = s.accept()
-			#sender.sendall('PING')
-			return render_template('index.html')
-		if request.form['submit'] == 'Ping':
-			print('\n')
-			print '***************** PINGING ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			conn.sendall('PING')
-			conn.recv(1024)
-			#sender.sendall('PING')
-			conn.close()
-			return render_template('index.html')
-		elif request.form['submit'] == 'Pong':
-			print('\n')
-			print '***************** WAITING FOR DATA ******************'
-			print('\n')
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			while True :
-				data = conn.recv(1024)
-				if data:
-					return data
-		elif request.form['submit'] == 'Ping-Pong':
-			print('\n')
-			print '***************** Ping-Pong ******************'
-			print('\n')
-			print 'WRITE PING'
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.bind((HOST, PORT))
-			s.listen(1)
-			conn, adr = s.accept()
-			conn.sendall('PING')
-			data = None
-			while data != 'PONG':
-				data = conn.recv(1024)
-				if data == 'PONG':
-					conn.close()
-					return data
-			print 'PING PONG'
-			return render_template('index.html')
+		# if request.form['submit'] == 'Setup':
+		# 	print('\n')
+		# 	print '***************** SETUP ******************'
+		# 	print('\n')
+		# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen(1)
+		# 	conn, adr = s.accept()
+		# 	while not conn:
+		# 		conn, adr = s.accept()
+		# 	#sender.sendall('PING')
+		# 	return render_template('index.html')
+		# if request.form['submit'] == 'Ping':
+		# 	print('\n')
+		# 	print '***************** PINGING ******************'
+		# 	print('\n')
+		# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen(1)
+		# 	conn, adr = s.accept()
+		# 	conn.sendall('PING')
+		# 	conn.recv(1024)
+		# 	#sender.sendall('PING')
+		# 	conn.close()
+		# 	return render_template('index.html')
+		# elif request.form['submit'] == 'Pong':
+		# 	print('\n')
+		# 	print '***************** WAITING FOR DATA ******************'
+		# 	print('\n')
+		# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen(1)
+		# 	conn, adr = s.accept()
+		# 	while True :
+		# 		data = conn.recv(1024)
+		# 		if data:
+		# 			return data
+		# elif request.form['submit'] == 'Ping-Pong':
+		# 	print('\n')
+		# 	print '***************** Ping-Pong ******************'
+		# 	print('\n')
+		# 	print 'WRITE PING'
+		# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		# 	s.bind((HOST, PORT))
+		# 	s.listen(1)
+		# 	conn, adr = s.accept()
+		# 	conn.sendall('PING')
+		# 	data = None
+		# 	while data != 'PONG':
+		# 		data = conn.recv(1024)
+		# 		if data == 'PONG':
+		# 			conn.close()
+		# 			return data
+		# 	print 'PING PONG'
+		# 	return render_template('index.html')
 	elif request.method == 'GET':
 		return render_template('index.html')
 
