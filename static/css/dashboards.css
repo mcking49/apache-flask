@@ -10,17 +10,11 @@ body {
 
 #page-wrapper {
     padding: 0 15px;
-    min-height: 568px;
     background-color: #fff;
 }
 
-@media(min-width:768px) {
-    #page-wrapper {
-        position: inherit;
-        margin: 0 0 0 250px;
-        padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
-    }
+.page-header {
+    text-align: center;
 }
 
 .navbar-top-links {
@@ -40,57 +34,12 @@ body {
     min-height: 50px;
 }
 
-.navbar-top-links .dropdown-menu li {
-    display: block;
+.navbar-top-links li a.active {
+    background-color: #eeeeee;
 }
 
-.navbar-top-links .dropdown-menu li:last-child {
-    margin-right: 0;
-}
-
-.navbar-top-links .dropdown-menu li a {
-    padding: 3px 20px;
-    min-height: 0;
-}
-
-.navbar-top-links .dropdown-menu li a div {
-    white-space: normal;
-}
-
-.navbar-top-links .dropdown-user {
-    right: 0;
-    left: auto;
-}
-
-.sidebar ul li {
-    border-bottom: 1px solid #e7e7e7;
-}
-
-.sidebar ul li a.active {
-    background-color: #eee;
-}
-
-@media(min-width:768px) {
-    .sidebar {
-        z-index: 1;
-        position: absolute;
-        width: 250px;
-        margin-top: 51px;
-    }
-
-    .navbar-top-links .dropdown-messages,
-    .navbar-top-links .dropdown-tasks,
-    .navbar-top-links .dropdown-alerts {
-        margin-left: auto;
-    }
-}
-#setup {
-    background-color: dodgerblue;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-decoration: none;
-    margin: 4px 4px;
+.navbar-top-links li a:hover {
+    background-color: #eeeeee;
 }
 
 #pingpong {
@@ -101,7 +50,6 @@ body {
     text-decoration: none;
     margin: 4px 2px;
 }
-
 
 form {
     display: inline;
