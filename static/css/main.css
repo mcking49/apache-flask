@@ -51,3 +51,7 @@ form {
 .panel-body {
     text-align: center;
 }
+
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
