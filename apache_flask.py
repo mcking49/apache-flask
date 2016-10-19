@@ -7,6 +7,10 @@
 
 from flask import Flask, make_response, render_template, jsonify, request
 
+import controller
+
+import unicodedata
+
 import serial, socket, port_listener
 
 app = Flask(__name__)
@@ -28,6 +32,11 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
+direction = "21"
+speed = "50"
+coordinator = controller.find_coordinater()
+print("================= " + coordinator + " =================")
+
 port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
 port_handler.startListener()
 
@@ -45,29 +54,47 @@ def pollMsg():
 
 #-----------------------------------
 @app.route('/', methods=['POST', 'GET'])
-def index():    
+def index():
 	return render_template('index.html')
 	
 #-----------------------------------
 @app.route('/standardMode', methods=['POST', 'GET'])
 def standardMode():
 	if request.method == 'POST':
-		if request.form['command'] == 'Activate Node':
-			sendMsg('Activate Node: ' + request.form['node'])
-			return render_template('index.html')
-		elif request.form['command'] == 'Deactivate Node':
-			sendMsg('Deactivate Node: ' + request.form['node'])
-			return render_template('index.html')
-		elif request.form['submit'] == 'Ping-Pong':
-			print('\n')
-			print '***************** Ping-Pong ******************'
-			print('\n')
-			print 'WRITE PING'
-			sendMsg('PING')
-			msg = pollMsg()
-			print 'PING PONG'
+		if request.form['submit'] == 'Speed':
+			global speed
+			speed = request.form['text']
+			# speed = speed.encode('ascii')
+			speed = speed.encode('ascii','ignore')
+			# speed = speed.unicode()
+			# unicodedata.normalize('NFKD', speed).encode('ascii','ignore')
+			print("================" + speed + "===============")
 			return render_template('standardMode.html', nodes=nodes,
 									sensors=sensors)
+		elif request.form['submit'] == 'Forward':
+			global direction
+			direction = "21"
+			print("================" + direction + "===============")
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
+		elif request.form['submit'] == 'Backward':
+			global direction
+			direction = "20"
+			print("================" + direction + "===============")
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
+		elif request.form['submit'] == 'Start':
+			controller.start(coordinator, speed, direction)
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
+		elif request.form['submit'] == 'Stop':
+			# node_speed = speed
+			# print(node_speed)
+			# print(speed)
+			controller.stop(coordinator, "0", direction)
+			return render_template('standardMode.html', nodes=nodes,
+									sensors=sensors)
+		
 	elif request.method == 'GET':
 		return render_template('standardMode.html', nodes=nodes, 
 								sensors=sensors)
