@@ -54,12 +54,7 @@
                                     <i class="glyphicon glyphicon-play-circle"></i> Controls
                                 </div>    
                                 <div class="list-group">
-                                    <form method="POST">
-                                        <input id="pingpong" type="submit" name="submit" value="Ping-Pong">
-                                    </form>
                                     <button onClick="toggleCurrentNode();" type="button" class=" btn btn-block btn-info">Toggle Node</button>
-                                    <button type="button" class=" btn btn-block btn-success">Start</button>
-                                    <button type="button" class=" btn btn-block btn-danger">Stop</button>
                                 </div>
                             </div>
                             <div class="panel panel-default">
@@ -110,6 +105,32 @@
                             <i class="glyphicon glyphicon-alert"></i> Properties
                         </div><!-- /.panel-heading -->                        
                         <div class="panel-body">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="glyphicon glyphicon-sort"></i> Target Control
+                                </div>    
+                                <div class="list-group">
+                                    
+                                    <form method="POST">
+                                        <button type="submit" name="submit" value="Start" class="btn btn-block btn-success">Start</button>
+                                        <button type="submit" name="submit" value="Stop" class="btn btn-block btn-danger">Stop</button>
+                                    </form>
+
+                                    <form method="POST">
+                                        <input type="number" name="text" min="0" max="100">
+                                        <button type="submit" name="submit" value="Speed" class="btn btn-warning">Speed</button>
+                                    </form>
+
+                                    <form method="POST">
+                                        <button type="submit" name="submit" value="Forward" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-arrow-up"></i></button>
+                                        <button type="submit" name="submit" value="Backward" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-arrow-down"></i></button>
+                                    </form>
+
+                                    <!-- SLIDER FOR SPEED -->
+
+                                </div>
+                            </div>
                     
                         </div><!-- /.panel-body -->                        
                     </div>
