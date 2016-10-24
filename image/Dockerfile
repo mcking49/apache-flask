@@ -16,7 +16,7 @@ RUN mkdir -p /srv/scripts
 ADD image_scripts/ /srv/scripts
 
 # Clone the app from github and install packages
-RUN git clone https://github.com/operationzombie/apache-flask.git /srv/www/app
+RUN git clone https://github.com/mcking49/apache-flask.git --branch code-quality --single-branch /srv/www/app #ee
 RUN cp -f /srv/www/app/apache/config/default.conf /etc/apache2/sites-available/000-default.conf
 RUN pip install -r /srv/www/app/requirements.txt
 
