@@ -5,6 +5,10 @@ body {
   font: 12pt arial;
 }
 
+form {
+  padding: 4px;
+}
+
 #wrapper {
   width: 100%;
 }
@@ -38,14 +42,4 @@ body {
 
 .navbar-top-links li a:hover {
   background-color: #eeeeee;
-}
-
-/* Floor Plan */
-#mynetwork {
-  background-image: url('/static/images/floorplan.gif');
-  background-repeat: no-repeat;
-  background-size: contain;
-  border: 1px solid lightgray;
-  height: 400px;
-  width: auto;
 }

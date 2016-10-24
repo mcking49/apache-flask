@@ -17,6 +17,19 @@
     <script src="/static/js/global.js"></script>
 
     <script src="../static/vis/dist/vis.js"></script>
+    <style>
+      /*
+      * Style for visJS diagram is here to allow the users selected floorplan to be dynamically
+      * loaded from the server.
+      */
+      #mynetwork {
+        background-image: url('/static/images/floorplans/{{ filename }}');
+        background-repeat: no-repeat;
+        background-size: contain;
+        border: 1px solid lightgray;
+        height: 600px;        
+      }
+    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -45,7 +58,7 @@
               </div><!-- /.col-lg-12 -->
           </div><!-- /.row -->
 
-          <div class="row">
+          <div class="row">         
 
             <!-- NODE PANEL -->
             <div class="col-lg-3">
@@ -56,7 +69,18 @@
                 <div class="panel-body">
                   <div class="panel panel-default">
                     <div class="panel-heading">
-                      <i class="glyphicon glyphicon-play-circle"></i> Controls
+                      <i class="glyphicon glyphicon-arrow-up"></i> Select Floor Plan
+                    </div>
+                    <div class="list-group">
+                      <form action="" method="POST" enctype=multipart/form-data>
+                        <p><input type=file name=file accept="image/*"></p>
+                          <input type="submit" name="submit" value="Set Floor Plan" class="btn btn-block btn-success" disabled>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="glyphicon glyphicon-play-circle"></i> Node Controls
                     </div>
                     <div class="list-group">
                       <button onClick="toggleCurrentNode();" type="button" class=" btn btn-block btn-info">Toggle Node</button>
@@ -114,18 +138,18 @@
                     <div class="panel-heading">
                       <i class="glyphicon glyphicon-sort"></i> Target Control
                     </div>
-                    <div class="list-group">
-                      <form method="POST">
-                        <button type="submit" name="submit" value="Start" class="btn btn-block btn-success">Start</button>
-                        <button type="submit" name="submit" value="Stop" class="btn btn-block btn-danger">Stop</button>
+                    <div class="list-group">                      
+                      <form method="POST" name="test">
+                        <button type="submit" name="submit" value="Start" class="btn btn-block btn-success" {{ start }}>Start</button>
+                        <button type="submit" name="submit" value="Stop" class="btn btn-block btn-danger" {{ stop }}>Stop</button>
                       </form>
                       <form method="POST">
-                        <input type="number" name="text" min="0" max="100">
-                        <button type="submit" name="submit" value="Speed" class="btn btn-warning">Speed</button>
+                        <input type="number" name="text" value="{{ speed }}" min="0" max="100">
+                        <button type="submit" name="submit" value="Speed" class="btn btn-warning">Set Speed</button>
                       </form>
                       <form method="POST">
-                        <button type="submit" name="submit" value="Forward" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-arrow-up"></i></button>
-                        <button type="submit" name="submit" value="Backward" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-arrow-down"></i></button>
+                        <button type="submit" name="submit" value="Forward" class="btn btn-info btn-circle" {{ forward }}>Forward <i class="glyphicon glyphicon-arrow-up"></i></button>
+                        <button type="submit" name="submit" value="Backward" class="btn btn-info btn-circle" {{ backward }}>Backward <i class="glyphicon glyphicon-arrow-down"></i></button>
                       </form>
                     </div>
                   </div>
@@ -138,5 +162,23 @@
         </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
+
+    <script>
+      /**
+      * This function enables the upload button for a floor plan image only
+      * when an image has been selected.
+      */
+      $(document).ready(
+      function(){
+        $('input:file').change(
+          function(){
+            if ($(this).val()) {
+              $('input:submit').attr('disabled',false);
+            } 
+          }
+        );
+      });
+    </script>
+
   </body>
 </html>
