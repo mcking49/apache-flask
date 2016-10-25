@@ -56,3 +56,21 @@ def find_coordinater():
             com_port = port[0]
     print '====== COM PORT : {} ======'.format(com_port)
     return com_port
+
+def test():
+    import pdb
+    pdb.set_trace()
+    port.write('+++\n')
+    time.sleep(0.5)
+    port.write('ATND\n')
+    # command = '~{}*{}*{}*#'.format(node, direction, speed)
+    # port.write(command)
+    node_response = ' '
+    # time.sleep is set to 1 second to give the network enough time
+    # to send the full message before reading it.
+    time.sleep(1)
+    complete_response = ''
+    while node_response != '':
+        node_response = port.readline()
+        complete_response += node_response
+    print complete_response
