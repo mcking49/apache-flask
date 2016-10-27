@@ -143,6 +143,15 @@
                 <div class="panel-body">
                   <div class="panel panel-default">
                     <div class="panel-heading">
+                      <i class="glyphicon glyphicon-sort"></i> Selected Node
+                    </div>
+                    <div class="list-group">                      
+                      <input id="selectedNode" type="text" name="text" value="{{ node }}">
+                      <button value="Node" onclick="changeNode()" class="btn btn-warning">Set Node</button>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
                       <i class="glyphicon glyphicon-sort"></i> Target Control
                     </div>
                     <div class="list-group">                      
@@ -199,6 +208,11 @@
       function changeSpeed() {
         var speed = $('#inputSpeed').val();
         $.post('/standardMode', {submit: 'Speed', speed: speed});
+      }
+
+      function changeNode() {
+        var node = $('#selectedNode').val();
+        $.post('/standardMode', {submit: 'Node', node: node});
       }
 
       /**
