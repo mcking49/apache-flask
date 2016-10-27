@@ -36,6 +36,8 @@ direction = '21'
 speed = '10'
 coordinator = controller.find_coordinater()
 
+print '\n========= ZOMBIE SERVER RUNNING =========\n'
+
 # Default disabled buttons on standardMode.html
 # start = ''
 # stop = 'disabled'
@@ -62,7 +64,6 @@ def standardMode():
             speed = request.form['speed']
             speed = speed.encode('ascii', 'ignore')
             controller.send_command(coordinator, speed, direction)
-            print '================ {} ==============='.format(speed)
             return render_template('standardMode.html', nodes=nodes,
                                sensors=sensors, filename=filename,
                                speed=speed)
@@ -75,7 +76,6 @@ def standardMode():
             global backward
             backward = ''
             controller.send_command(coordinator, speed, direction)
-            print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
                                sensors=sensors, filename=filename,
                                speed=speed)
@@ -88,7 +88,6 @@ def standardMode():
             global backward
             backward = 'disabled'
             controller.send_command(coordinator, speed, direction)
-            print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
                                sensors=sensors, filename=filename,
                                speed=speed)
