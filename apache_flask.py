@@ -33,14 +33,14 @@ filename = ''
 
 # Default device variables
 direction = '21'
-speed = '50'
+speed = '10'
 coordinator = controller.find_coordinater()
 
 # Default disabled buttons on standardMode.html
-start = ''
-stop = 'disabled'
-forward = 'disabled'
-backward = ''
+# start = ''
+# stop = 'disabled'
+# forward = 'disabled'
+# backward = ''
 
 #-----------------------------------
 @app.route('/', methods=['POST', 'GET'])
@@ -59,13 +59,12 @@ def standardMode():
         # Set speed of node
         if request.form['submit'] == 'Speed':
             global speed
-            speed = request.form['text']
+            speed = request.form['speed']
             speed = speed.encode('ascii', 'ignore')
             controller.send_command(coordinator, speed, direction)
             print '================ {} ==============='.format(speed)
             return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
         # Make node go forward
         elif request.form['submit'] == 'Forward':
@@ -78,8 +77,7 @@ def standardMode():
             controller.send_command(coordinator, speed, direction)
             print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
         # Make node go backward
         elif request.form['submit'] == 'Backward':
@@ -92,8 +90,7 @@ def standardMode():
             controller.send_command(coordinator, speed, direction)
             print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
         # Start node
         elif request.form['submit'] == 'Start':
@@ -101,10 +98,10 @@ def standardMode():
             start = 'disabled'
             global stop
             stop = ''
+            # controller.test()
             controller.send_command(coordinator, speed, direction)
             return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
         # Stop node
         elif request.form['submit'] == 'Stop':
@@ -114,8 +111,7 @@ def standardMode():
             stop = 'disabled'
             controller.send_command(coordinator, "0", direction)
             return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
         # Set Floor Plan
         elif request.form['submit'] == 'Set Floor Plan':
@@ -124,13 +120,16 @@ def standardMode():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return render_template('standardMode.html', nodes=nodes,
-                            sensors=sensors, filename=filename, start=start,
-                            stop=stop, forward=forward, backward=backward,
+                            sensors=sensors, filename=filename,
+                            speed=speed)
+        elif request.form['submit'] == 'Empty Log File':
+            controller.emptyLog()
+            return render_template('standardMode.html', nodes=nodes,
+                            sensors=sensors, filename=filename,
                             speed=speed)
     elif request.method == 'GET':
         return render_template('standardMode.html', nodes=nodes,
-                               sensors=sensors, filename=filename, start=start,
-                               stop=stop, forward=forward, backward=backward,
+                               sensors=sensors, filename=filename,
                                speed=speed)
 
 

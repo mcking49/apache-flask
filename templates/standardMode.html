@@ -15,7 +15,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/global.js"></script>
-
     <script src="../static/vis/dist/vis.js"></script>
     <style>
       /*
@@ -80,6 +79,14 @@
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
+                      <i class="glyphicon glyphicon-trash"></i> Empty Log File
+                    </div>
+                    <div class="list-group">
+                      <button type="button" onclick="emptyLog()" class="btn btn-block btn-danger">Empty Log File</button>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
                       <i class="glyphicon glyphicon-play-circle"></i> Node Controls
                     </div>
                     <div class="list-group">
@@ -139,18 +146,14 @@
                       <i class="glyphicon glyphicon-sort"></i> Target Control
                     </div>
                     <div class="list-group">                      
-                      <form method="POST" name="test">
-                        <button type="submit" name="submit" value="Start" class="btn btn-block btn-success" {{ start }}>Start</button>
-                        <button type="submit" name="submit" value="Stop" class="btn btn-block btn-danger" {{ stop }}>Stop</button>
-                      </form>
-                      <form method="POST">
-                        <input type="number" name="text" value="{{ speed }}" min="0" max="100">
-                        <button type="submit" name="submit" value="Speed" class="btn btn-warning">Set Speed</button>
-                      </form>
-                      <form method="POST">
-                        <button type="submit" name="submit" value="Forward" class="btn btn-info btn-circle" {{ forward }}>Forward <i class="glyphicon glyphicon-arrow-up"></i></button>
-                        <button type="submit" name="submit" value="Backward" class="btn btn-info btn-circle" {{ backward }}>Backward <i class="glyphicon glyphicon-arrow-down"></i></button>
-                      </form>
+                      <button value="Start" onclick="sendCommand('Start')" class="btn btn-block btn-success">Start</button>
+                      <button value="Stop" onclick="sendCommand('Stop')" class="btn btn-block btn-danger">Stop</button>
+                      
+                      <input id="inputSpeed" type="number" name="text" value="{{ speed }}" min="0" max="100">
+                      <button value="Speed" onclick="changeSpeed()" class="btn btn-warning">Set Speed</button>
+                      
+                      <button value="Forward" onclick="sendCommand('Forward')" class="btn btn-info btn-circle">Forward <i class="glyphicon glyphicon-arrow-up"></i></button>
+                      <button value="Backward" onclick="sendCommand('Backward')" class="btn btn-info btn-circle">Backward <i class="glyphicon glyphicon-arrow-down"></i></button>
                     </div>
                   </div>
                 </div><!-- /.panel-body -->
@@ -178,6 +181,33 @@
           }
         );
       });
+      
+      /**
+       * Tell the server which button was pressed.
+       * The ajax call tells the server which button was pressed and performs
+       * the same action a normal post method would do, without refreshing the page.
+       */
+      function sendCommand(button) {
+        $.post('/standardMode', {submit: button});
+      }      
+
+      /**
+       * Tell the server the speed has been updated.
+       * The ajax call tells the server the speed has been changed and gives
+       * the server the new speed value.
+       */
+      function changeSpeed() {
+        var speed = $('#inputSpeed').val();
+        $.post('/standardMode', {submit: 'Speed', speed: speed});
+      }
+
+      /**
+       * Clear the log file.
+       */
+      function emptyLog() {
+        alert("The log file has successfully been cleared!");
+        $.post('/standardMode', {submit: 'Empty Log File'});
+      }
     </script>
 
   </body>
