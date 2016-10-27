@@ -38,7 +38,6 @@ def find_coordinater():
     for port in ports:
         if "USB Serial Port" in port[1]:
             com_port = port[0]
-    print '====== COM PORT : {} ======'.format(com_port)
     return com_port
 
 def log_to_file(node, speed, direction, received):
@@ -79,7 +78,6 @@ def send_command(com, speed, direction):
     # to send the full message before reading it.
     time.sleep(1)
     node_response = port.readline()
-    print node_response
     direction_name = ''
     if direction == '21':
         direction_name = 'Forward'
