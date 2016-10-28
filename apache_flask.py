@@ -78,10 +78,10 @@ def standardMode():
         elif request.form['submit'] == 'Forward':
             global direction
             direction = "21"
-            global forward
-            forward = 'disabled'
-            global backward
-            backward = ''
+            if request.form['node']:
+                global node
+                node = request.form['node'].upper()
+                print node
             controller.send_command(coordinator, speed, direction, node)
             print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
@@ -91,10 +91,10 @@ def standardMode():
         elif request.form['submit'] == 'Backward':
             global direction
             direction = "20"
-            global forward
-            forward = ''
-            global backward
-            backward = 'disabled'
+            if request.form['node']:
+                global node
+                node = request.form['node'].upper()
+                print node
             controller.send_command(coordinator, speed, direction, node)
             print '================ {} ==============='.format(direction)
             return render_template('standardMode.html', nodes=nodes,
