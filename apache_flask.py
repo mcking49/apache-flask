@@ -37,6 +37,8 @@ speed = '10'
 node = 'BELLE'
 coordinator = controller.find_coordinater()
 
+print '\n========= ZOMBIE SERVER RUNNING =========\n'
+
 # Default disabled buttons on standardMode.html
 # start = ''
 # stop = 'disabled'
@@ -70,7 +72,6 @@ def standardMode():
             speed = request.form['speed']
             speed = speed.encode('ascii', 'ignore')
             controller.send_command(coordinator, speed, direction, node)
-            print '================ {} ==============='.format(speed)
             return render_template('standardMode.html', nodes=nodes,
                                sensors=sensors, filename=filename,
                                speed=speed, node=node)
