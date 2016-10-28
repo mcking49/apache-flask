@@ -114,7 +114,9 @@ var sensorColor = {
             id: nodeId,
             status: 'activated'
         });
-        $.post('/standardMode', {submit: 'Activate Node', node: nodeId});
+        node = nodes.get(nodeId)
+        console.log('ACTIVATE NODE')
+        $.post('/standardMode', {submit: 'Forward', node: node.label});
     }
 
     function deactivateNode(nodeId){
@@ -123,7 +125,8 @@ var sensorColor = {
             id: nodeId,
             status: 'deactive'
         });
-        $.post('/standardMode', {submit: 'Deactivate Node', node: nodeId});
+        node = nodes.get(nodeId)
+        $.post('/standardMode', {submit: 'Backward', node: node.label});
     }
 
     //Set specific node color

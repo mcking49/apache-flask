@@ -56,7 +56,7 @@ def log_to_file(node, speed, direction, received):
     with open('server_command_log.txt', 'a') as log_file:
         log_file.write(log)
 
-def send_command(com, speed, direction):
+def send_command(com, speed, direction, node):
     """Send a command over the network.
 
     Sends a command over the network containing the nodes name to identify
@@ -70,7 +70,7 @@ def send_command(com, speed, direction):
         direction: the direction the node should be travelling in.
     """    
     port = serial.Serial(com, baudrate=9600, timeout=0)
-    node = 'BELLE'
+    # node = 'BELLE'
     command = '~{}*{}*{}*#'.format(node, direction, speed)
     port.write(command)
     node_response = ''
